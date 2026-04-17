@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Models</title>
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+</head>
+<body>
+
+<div class="navbar">
+  <a href="index.html">Home</a>
+  <a href="register.html">Register</a>
+</div>
+
+<h2>Available Models</h2>
+
+<div id="models"></div>
+
+<script src="firebase.js"></script>
+
+<script>
+db.collection("models").get().then((data) => {
+  const container = document.getElementById("models");
+
+  data.forEach(doc => {
+    let m = doc.data();
+
+    let div = document.createElement("div");
+    div.className = "card";
+
+    div.innerHTML = `
+      <img src="${m.image}" width="200"><br>
+      <h3>${m.name}</h3>
+      <p>Age: ${m.age}</p>
+      <p>Height: ${m.height}</p>
+      <p>Figure: ${m.figure}</p>
+      <p>Experience: ${m.experience}</p>
+      <p>${m.city}, ${m.state}</p>
+      <p>Contact: ${m.contact}</p>
+    `;
+
+    container.appendChild(div);
+  });
+});
+</script>
+
+</body>
+</html>

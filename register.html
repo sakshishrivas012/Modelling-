@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register Model</title>
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+</head>
+<body>
+
+<div class="navbar">
+  <a href="index.html">Home</a>
+  <a href="models.html">Models</a>
+</div>
+
+<h2>Model Registration</h2>
+
+<form id="form">
+  <input type="text" id="name" placeholder="Name" required><br>
+  <input type="number" id="age" placeholder="Age"><br>
+  <input type="text" id="height" placeholder="Height"><br>
+  <input type="text" id="figure" placeholder="Figure"><br>
+  <input type="text" id="experience" placeholder="Experience"><br>
+  <input type="text" id="city" placeholder="City"><br>
+  <input type="text" id="state" placeholder="State"><br>
+  <input type="text" id="contact" placeholder="Contact"><br>
+  <input type="file" id="photo"><br><br>
+
+  <button type="submit">Submit</button>
+</form>
+
+<script src="firebase.js"></script>
+
+<script>
+document.getElementById("form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const file = document.getElementById("photo").files[0];
+  const storageRef = storage.ref("models/" + file.name);
+
+  await storageRef.put(file);
+  const imageURL = await storageRef.getDownloadURL();
+
+  await db.collection("models").add({
+    name: name.value,
+    age: age.value,
+    height: height.value,
+    figure: figure.value,
+    experience: experience.value,
+    city: city.value,
+    state: state.value,
+    contact: contact.value,
+    image: imageURL
+  });
+
+  alert("Model Registered Successfully!");
+  window.location.href = "models.html";
+});
+</script>
+
+</body>
+</html>
